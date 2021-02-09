@@ -117,7 +117,6 @@ send_message() {
     
     # 钉钉自定义机器人通知
     if [ "${DD_WEBHOOK}" ]; then
-        echo -e "text=${TITLE}&desp=${log_text}" >${PUSH_TMP_PATH}
         DD_push_text="${TITLE}\n\n${log_text}"
         push=$(curl "${DD_WEBHOOK}" \
             -H "Content-Type: application/json" \
@@ -128,12 +127,6 @@ send_message() {
                 },
             \"msgtype\":\"markdown\"
             }")
-        push_code=$(echo ${push} | jq ".errno")
-        if [ ${push_code} -eq 0 ]; then
-            echo -e "【钉钉自定义机器人推送结果】: 成功\n"
-        else
-            echo -e "【钉钉自定义机器人推送结果】: 失败\n"
-        fi
     fi
 }
 
