@@ -118,7 +118,7 @@ send_message() {
     # 钉钉自定义机器人通知
     if [ "${DD_WEBHOOK}" ]; then
         DD_push_text="${TITLE}\n\n${log_text}"
-        push=$(curl "${DD_WEBHOOK}" \
+        curl "${DD_WEBHOOK}" \
             -H "Content-Type: application/json" \
             -d "{\"markdown\":
                 {
@@ -126,7 +126,7 @@ send_message() {
                     \"text\":\"${DD_push_text}\"
                 },
             \"msgtype\":\"markdown\"
-            }")
+            }"
     fi
 }
 
