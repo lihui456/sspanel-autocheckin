@@ -80,13 +80,13 @@ send_message() {
     # Server 酱通知
     if [ "${PUSH_KEY}" ]; then
         echo -e "text=${TITLE}&desp=${log_text}" >${PUSH_TMP_PATH}
-        push=$(curl -k -s --data-binary @${PUSH_TMP_PATH} "https://sc.ftqq.com/${PUSH_KEY}.send")
-        push_code=$(echo ${push} | jq -r ".errno" 2>&1)
-        if [ ${push_code} -eq 0 ]; then
-            echo -e "【Server 酱推送结果】: 成功\n"
-        else
-            echo -e "【Server 酱推送结果】: 失败\n"
-        fi
+        curl -k -s --data-binary @${PUSH_TMP_PATH} "https://sc.ftqq.com/${PUSH_KEY}.send"
+        #push_code=$(echo ${push} | jq -r ".errno" 2>&1)
+        #if [ ${push_code} -eq 0 ]; then
+        #    echo -e "【Server 酱推送结果】: 成功\n"
+        #else
+        #    echo -e "【Server 酱推送结果】: 失败\n"
+        #fi
     fi
 
     # Qmsg 酱通知
@@ -106,19 +106,19 @@ send_message() {
     if [ "${TELEGRAMBOT_TOKEN}" ] && [ "${TELEGRAMBOT_CHATID}" ]; then
         result_tgbot_log_text="${TITLE}${log_text}"
         echo -e "chat_id=${TELEGRAMBOT_CHATID}&parse_mode=Markdown&text=${result_tgbot_log_text}" >${PUSH_TMP_PATH}
-        push=$(curl -k -s --data-binary @${PUSH_TMP_PATH} "https://api.telegram.org/bot${TELEGRAMBOT_TOKEN}/sendMessage")
-        push_code=$(echo ${push} | grep -o '"ok":true')
-        if [ ${push_code} ]; then
-            echo -e "【TelegramBot 推送结果】: 成功\n"
-        else
-            echo -e "【TelegramBot 推送结果】: 失败\n"
-        fi
+        curl -k -s --data-binary @${PUSH_TMP_PATH} "https://api.telegram.org/bot${TELEGRAMBOT_TOKEN}/sendMessage"
+        #push_code=$(echo ${push} | grep -o '"ok":true')
+        #if [ ${push_code} ]; then
+        #    echo -e "【TelegramBot 推送结果】: 成功\n"
+        #else
+        #    echo -e "【TelegramBot 推送结果】: 失败\n"
+        #fi
     fi
     
     # 钉钉自定义机器人通知
     if [ "${DD_WEBHOOK}" ]; then
         DD_push_text="${TITLE}\n\n${log_text}"
-        push=$(curl "${DD_WEBHOOK}" \
+        curl "${DD_WEBHOOK}" \
             -H "Content-Type: application/json" \
             -d "{\"markdown\":
                 {
@@ -126,13 +126,13 @@ send_message() {
                     \"text\":\"${DD_push_text}\"
                 },
             \"msgtype\":\"markdown\"
-            }")
-        push_code=$(echo ${push} | grep -o '"ok":true')
-        if [ ${push_code} ]; then
-            echo -e "【钉钉自定义机器人推送结果】: 成功\n"
-        else
-            echo -e "【钉钉自定义机器人推送结果】: 失败\n"
-        fi
+            }"
+        #push_code=$(echo ${push} | grep -o '"ok":true')
+        #if [ ${push_code} ]; then
+        #    echo -e "【钉钉自定义机器人推送结果】: 成功\n"
+        #else
+        #    echo -e "【钉钉自定义机器人推送结果】: 失败\n"
+        #fi
     fi
 }
 
