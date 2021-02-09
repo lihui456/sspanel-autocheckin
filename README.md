@@ -31,7 +31,7 @@
 - 适用于使用 SSPanel 用户管理面板搭建的网站，网站页面底部会有 `Powered by SSPANEL` 字段
 - 支持使用配置文件读取账户信息，支持多机场多用户签到
 - 支持一日多次签到
-- 支持推送签到信息到 QQ、微信和 Telegram
+- 支持推送签到信息到 QQ、微信、Telegram和钉钉自定义机器人
 - 若有 bug 请到 [Issues](https://github.com/isecret/sspanel-autocheckin/issues/new) 反馈
 
 ## 升级警告
@@ -49,10 +49,11 @@ Fork 该仓库，进入仓库后点击 `Settings`，右侧栏点击 `Secrets`，
 | Secret Name          | Secret Value                                   | 参数说明                                                                        | 是否可选               |
 | -------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------- | ---------------------- |
 | `USERS`              | `https://abc.com----abc@abc.com----abc123456;` | 用户组，格式为 `签到站点----用户名----密码`，多个站点或用户使用 `;` 分隔        | 必填，至少存在一组     |
-| `PUSH_KEY`           | `SCxxxxxxxxxxxxx`                              | 微信推送 ，填写自己申请[Server 酱](http://sc.ftqq.com/?c=code)的`SC KEY`        | 可选                   |
-| `QMSG_KEY`           | `e6fxxxxxxxxxxxx`                              | QQ 推送 ，填写自己申请[Qmsg 酱](https://qmsg.zendee.cn/me.html#/)的 `QMSG_KEY`  | 可选                   |
+| `PUSH_KEY`           | `SCxxxxxxxxxxxxx`                              | 微信推送 ，填写自己申请[Server 酱](http://sc.ftqq.com/?c=code)的`SC KEY`        | 可选                  |
+| `QMSG_KEY`           | `e6fxxxxxxxxxxxx`                              | QQ 推送 ，填写自己申请[Qmsg 酱](https://qmsg.zendee.cn/me.html#/)的 `QMSG_KEY`  | 可选                  |
 | `TELEGRAMBOT_TOKEN`  | `123456:ABC-DEF1234xxx-xxx123ew11`             | TGBot 推送，填写自己向[@BotFather](https://t.me/BotFather) 申请的 Bot Token     | 可选，和下面的一起使用 |
 | `TELEGRAMBOT_CHATID` | `11xxxxxx03`                                   | TGBot 推送，填写[@getuseridbot](https://t.me/getuseridbot)私聊获取到的纯数字 ID | 可选，和上面一起使用   |
+| `DD_WEBHOOK`         | `https://oapi.dingtalk.com/robot/send?access_token=XXXXXXXXX`| 钉钉自定义机器人推送，关键字请设置为 `SSPanel`                  | 可选                    |
 | `DISPALY_CONTEXT`    | `1`                                            | 任务执行时是否显示详细信息，`1` 显示 `0` 关闭，默认值 `1`                       | 可选                   |
 
 > TGBot 推送相关参数获取步骤可以点击 [TGBot 推送相关参数获取](#TGBot 推送相关参数获取) 查看。
@@ -106,6 +107,8 @@ QMSG_KEY="QMSG_KEY"
 TELEGRAMBOT_TOKEN=TELEGRAMBOT_TOKEN
 # TelegramBot 推送用户 ID
 TELEGRAMBOT_CHATID="TELEGRAMBOT_CHATID"
+# 钉钉自定义机器人 推送 Webhook
+DD_WEBHOOK="DD_WEBHOOK"
 # 执行任务时是否显示签到详情
 DISPALY_CONTEXT=1
 ```
@@ -126,6 +129,8 @@ DISPALY_CONTEXT=1
 > TELEGRAMBOT_TOKEN=TELEGRAMBOT_TOKEN
 > # TelegramBot 推送用户 ID
 > TELEGRAMBOT_CHATID="TELEGRAMBOT_CHATID"
+> # 钉钉自定义机器人 推送用户 Webhook
+> DD_WEBHOOK="DD_WEBHOOK"
 > # 执行任务时是否显示签到详情
 > DISPALY_CONTEXT=1
 > EOF
